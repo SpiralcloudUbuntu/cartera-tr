@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>Cartera TR — panel de Trade Republic</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img src="icon-192.png" alt="" width="28" height="28">
+    <div>
+      <strong>Cartera TR</strong>
+      <span id="subtitle">Panel de Trade Republic</span>
+    </div>
+  </div>
+  <div class="actions">
+    <span id="status" class="status"></span>
+    <label class="btn primary" for="file">Cargar CSV
+      <input id="file" type="file" accept=".csv,text/csv" hidden>
+    </label>
+    <button id="theme" class="btn icon" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
+  </div>
+</header>
+
+<section id="welcome" class="welcome">
+  <h1>Tu cartera, en gráficas</h1>
+  <p>Sube el <strong>CSV de transacciones</strong> de Trade Republic y la app calcula todo:
+     evolución del patrimonio, composición, flujos mensuales, gastos por categoría y comercio,
+     intereses y comisiones.</p>
+  <ol>
+    <li>App de Trade Republic → perfil → <strong>Extractos de cuenta</strong>.</li>
+    <li><strong>Exportación de transacciones</strong> → periodo <em>desde la apertura de la cuenta</em>.</li>
+    <li>Descarga el CSV y súbelo aquí.</li>
+  </ol>
+  <label class="btn primary big" for="file">Elegir CSV</label>
+  <p class="privacy">El archivo se procesa <strong>en tu navegador</strong>. No se sube a ningún servidor.</p>
+  <p class="privacy"><button id="loadDemo" class="link">Ver con datos de ejemplo</button></p>
+</section>
+
+<main id="app" hidden>
+
+  <section class="kpis" id="kpis"></section>
+
+  <section class="card wide">
+    <div class="card-head">
+      <h2>Evolución del patrimonio</h2>
+      <span class="hint" id="evoRange"></span>
+    </div>
+    <div class="chart tall"><canvas id="evo"></canvas></div>
+  </section>
+
+  <section class="grid2">
+    <div class="card">
+      <h2>Composición de la cartera</h2>
+      <div class="chart"><canvas id="comp"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Gastos por categoría</h2>
+      <div class="chart"><canvas id="mcc"></canvas></div>
+    </div>
+  </section>
+
+  <section class="card wide">
+    <div class="card-head">
+      <h2>Flujo mensual</h2>
+      <span class="hint">ingresos, gasto, inversión y neto</span>
+    </div>
+    <div class="chart tall"><canvas id="flow"></canvas></div>
+  </section>
+
+  <section class="grid2">
+    <div class="card">
+      <h2>Top comercios</h2>
+      <div class="chart"><canvas id="merchants"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Intereses y saveback</h2>
+      <div class="chart"><canvas id="interest"></canvas></div>
+    </div>
+  </section>
+
+  <section class="card wide">
+    <div class="card-head">
+      <h2>Movimientos</h2>
+      <div class="filters">
+        <input id="q" type="search" placeholder="Buscar comercio, activo, importe…">
+        <select id="typeFilter">
+          <option value="">Todos los tipos</option>
+          <option value="compra">Compras</option>
+          <option value="venta">Ventas</option>
+          <option value="tarjeta">Tarjeta</option>
+          <option value="ingreso">Ingresos</option>
+          <option value="retirada">Retiradas</option>
+          <option value="interes">Intereses</option>
+          <option value="saveback">Saveback</option>
+        </select>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="table">
+        <thead><tr>
+          <th data-sort="fecha">Fecha</th>
+          <th data-sort="tipo">Tipo</th>
+          <th data-sort="nombre">Concepto</th>
+          <th data-sort="shares" class="num">Títulos</th>
+          <th data-sort="amount" class="num">Importe</th>
+          <th data-sort="fee" class="num">Comisión</th>
+          <th data-sort="tax" class="num">Impuesto</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="hint" id="tableInfo"></p>
+  </section>
+
+  <section class="card wide details" id="details"></section>
+
+  <p class="reset"><button id="reset" class="link danger">Borrar datos de este navegador</button></p>
+</main>
+
+<footer>
+  <p>Datos procesados en local · precios de mercado: Yahoo Finance · sin cookies ni servidores</p>
+</footer>
+
+<script src="chart.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
